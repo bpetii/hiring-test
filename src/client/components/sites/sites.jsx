@@ -13,7 +13,7 @@ import {
 import { sitesLoaded } from "~store/entities/sites/sites";
 import styles from "./sites.module.less";
 
-import SiteCard from "./siteCard/siteCard";
+import SiteAccordion from "./siteCard/siteAccordion";
 
 const Sites = ({ list, loading, sitesLoaded }) => {
   const sortButton = list.length ? (
@@ -47,7 +47,7 @@ const Sites = ({ list, loading, sitesLoaded }) => {
                 <ul>
                   {list.map((site, i) => (
                     <li key={i}>
-                      <SiteCard {...site} />
+                      <SiteAccordion {...site} />
                     </li>
                   ))}
                 </ul>

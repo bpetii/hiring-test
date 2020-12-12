@@ -16,12 +16,63 @@ import styles from "./sites.module.less";
 import SiteAccordion from "./siteAccordion/siteAccordion";
 
 const Sites = ({ list, loading, sitesLoaded }) => {
+  const [isAsc, setIsAsc] = useState();
+  const [userInput, setUserInput] = useState("");
+  const [filteredSortedList, setFilteredSortedList] = useState(list);
+  console.log(filteredSortedList);
+
+  useEffect(() => {
+    onSortByName();
+    onfilterList();
+  }, [isAsc, list, userInput]);
+
+  const onfilterList = () => {
+    if (userInput) {
+      setFilteredSortedList(
+        list
+          .slice()
+          .filter((site) =>
+            site.name.toUpperCase().startsWith(userInput.toUpperCase())
+          )
+      );
+    }
+  };
+
+  const onSortByName = () => {
+    if (isAsc) {
+      setFilteredSortedList(
+        list.slice().sort(function (a, b) {
+          return a.name.localeCompare(b.name);
+        })
+      );
+    } else {
+      setFilteredSortedList(
+        list.slice().sort(function (a, b) {
+          return b.name.localeCompare(a.name);
+        })
+      );
+    }
+  };
+
   const sortButton = list.length ? (
-    <Button name="example" label="Sort by name" colored width="200px" />
+    <Button
+      name="example"
+      label="Sort by name"
+      onClick={() => {
+        setIsAsc((prevState) => !prevState);
+      }}
+      colored
+      width="200px"
+    />
   ) : null;
 
   const searchForm = list.length ? (
-    <Input  name="example" placeholder="Filter by name" />
+    <Input
+      value={userInput}
+      onChange={(e) => setUserInput(e.target.value)}
+      name="example"
+      placeholder="Filter by name"
+    />
   ) : null;
 
   return (
@@ -43,9 +94,9 @@ const Sites = ({ list, loading, sitesLoaded }) => {
 
           {!loading ? (
             <div className={styles.sitesList}>
-              {list.length ? (
+              {filteredSortedList.length ? (
                 <ul>
-                  {list.map((site, i) => (
+                  {filteredSortedList.map((site, i) => (
                     <li key={i}>
                       <SiteAccordion {...site} />
                     </li>

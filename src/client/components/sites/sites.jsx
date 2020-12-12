@@ -16,10 +16,9 @@ import styles from "./sites.module.less";
 import SiteAccordion from "./siteAccordion/siteAccordion";
 
 const Sites = ({ list, loading, sitesLoaded }) => {
-  const [isAsc, setIsAsc] = useState();
+  const [isAsc, setIsAsc] = useState(true);
   const [userInput, setUserInput] = useState("");
   const [filteredSortedList, setFilteredSortedList] = useState(list);
-  console.log(filteredSortedList);
 
   useEffect(() => {
     onSortByName();
@@ -54,6 +53,24 @@ const Sites = ({ list, loading, sitesLoaded }) => {
     }
   };
 
+  const loadForm = loading && (
+    <Loader text="Loading sites..." width="100%" height="100px">
+      <Spinner />
+    </Loader>
+  );
+
+  const siteList = filteredSortedList.length ? (
+    <ul>
+      {filteredSortedList.map((site, i) => (
+        <li key={i}>
+          <SiteAccordion {...site} />
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <em>None loaded</em>
+  );
+
   const sortButton = list.length ? (
     <Button
       name="example"
@@ -66,6 +83,7 @@ const Sites = ({ list, loading, sitesLoaded }) => {
     />
   ) : null;
 
+  // I created a plus function for more user-friendly outlook, where the users can filter the sites by name
   const searchForm = list.length ? (
     <Input
       value={userInput}
@@ -91,26 +109,8 @@ const Sites = ({ list, loading, sitesLoaded }) => {
             <Column span={1 / 3}>{sortButton}</Column>
             <Column span={2 / 3}>{searchForm}</Column>
           </Row>
-
-          {!loading ? (
-            <div className={styles.sitesList}>
-              {filteredSortedList.length ? (
-                <ul>
-                  {filteredSortedList.map((site, i) => (
-                    <li key={i}>
-                      <SiteAccordion {...site} />
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <em>None loaded</em>
-              )}
-            </div>
-          ) : (
-            <Loader text="Loading sites..." width="100%" height="100px">
-              <Spinner />
-            </Loader>
-          )}
+          {loadForm}
+          <div className={styles.sitesList}>{siteList}</div>
         </Column>
       </Row>
     </Card>

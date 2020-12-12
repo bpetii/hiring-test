@@ -5,6 +5,7 @@ import Logo from "../../images/logo@2x.png";
 
 import { Main } from "../../views/main/main";
 import { Details } from "../../views/details/details";
+import { Chart } from "../../views/chart/chart";
 
 export const Routes = () => {
   return (
@@ -17,6 +18,7 @@ export const Routes = () => {
       />
       <Router>
         <Route path="/" exact component={Main} />
+        <Route path="/chart" exact component={Chart} />
         <Route path="/site-detail/:id" component={Details} />
       </Router>
     </>

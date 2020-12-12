@@ -1,8 +1,5 @@
-import React, { useState } from "react";
-import styles from "./siteAccordion.module.less";
-import { connect } from "react-redux";
-import { push } from "connected-react-router";
-import { Accordion, Heading, Button, List } from "~gui-library";
+import React from "react";
+import { Accordion, Heading, Button } from "~gui-library";
 import { Link } from "react-router-dom";
 import OilRigs from "../../oil-rigs/oil-rigs";
 
@@ -14,11 +11,15 @@ const SiteAccordion = ({ name, id, country, oilRigs }) => {
       return { id: index, name: oilRig, actions: [] };
     }),
   };
+
+  // There are many ways to navigate to other view, here I used the Link components with 'to' property.
+  // I used other ways to do so in this project.
+
   return (
     <Accordion
       heading={
         <Heading>
-          {name}- ({country})
+          {name} - ({country})
         </Heading>
       }
       bordered
@@ -32,21 +33,4 @@ const SiteAccordion = ({ name, id, country, oilRigs }) => {
   );
 };
 
-const mapStateToProps = ({ router }) => {
-  const { location, action } = router;
-  return {
-    location: location,
-    action: action,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  navigateTo: (location) => {
-    dispatch(push(location));
-  },
-  siteSelection: (selectedSite) => {
-    dispatch(selectedSite);
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SiteAccordion);
+export default SiteAccordion;

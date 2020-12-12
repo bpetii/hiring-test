@@ -13,7 +13,7 @@ import {
 import { sitesLoaded } from "~store/entities/sites/sites";
 import styles from "./sites.module.less";
 
-import SiteAccordion from "./siteCard/siteAccordion";
+import SiteAccordion from "./siteAccordion/siteAccordion";
 
 const Sites = ({ list, loading, sitesLoaded }) => {
   const sortButton = list.length ? (

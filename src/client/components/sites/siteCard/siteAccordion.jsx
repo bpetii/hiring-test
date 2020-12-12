@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import styles from "./siteAccordion.module.less";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import { Accordion, Heading, Button } from "~gui-library";
+import { Accordion, Heading, Button, List } from "~gui-library";
 import { Link } from "react-router-dom";
 import OilRigs from "../../oil-rigs/oil-rigs";
 
 const SiteAccordion = ({ name, id, country, oilRigs }) => {
-  const items = {
+  const siteOilRigs = {
     name: "Oil Rigs",
     actions: [],
     items: oilRigs.map((oilRig, index) => {
@@ -24,7 +24,7 @@ const SiteAccordion = ({ name, id, country, oilRigs }) => {
       bordered
       managed
     >
-      <OilRigs list={items} />
+      <OilRigs list={siteOilRigs} />
       <Link to={`/site-detail/${id}`}>
         <Button colored name="example" label="View site" inverted />
       </Link>

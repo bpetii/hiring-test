@@ -7,7 +7,7 @@ import CountUp from "react-countup";
 
 // For more user-friendly outlook, I make the website more intuitive by enabling the user to handle the Charts on their own.
 // Users are very unique with peculiar decision, that is why my task is to satisty all the users who visit this page
-// by providing more opportunities to display the information
+// by providing more opportunities to display the information.
 
 const ChartComponent = ({ list, history }) => {
   const [isBar, setIsBar] = useState(true);

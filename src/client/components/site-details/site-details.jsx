@@ -43,7 +43,7 @@ const SiteDetails = ({ siteList, oilRigsList, history, oilRigsLoaded }) => {
       setSelectedSite(site);
       setFormattedRigList(rigList);
     }
-  }, [siteList, oilRigsList, isAsc]);
+  }, [siteList, oilRigsList]);
 
   useEffect(() => {
     onSortByName();

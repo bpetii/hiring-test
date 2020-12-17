@@ -30,6 +30,7 @@ export default slice.reducer;
 
 const baseUrl = 'http://localhost:3000/api';
 const url = '/sites';
+
 export const sitesLoaded = () => apiCallBegan({
   baseUrl,
   url,

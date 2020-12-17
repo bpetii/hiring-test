@@ -1,16 +1,16 @@
-import {createAction} from '@reduxjs/toolkit';
+import { createAction } from "@reduxjs/toolkit";
 
 /**
  * @type import('@reduxjs/toolkit').ActionCreatorWithPreparedPayload
  */
-export const apiCallBegan = createAction('api/CallBegan');
+export const apiCallBegan = createAction("api/CallBegan");
 
 /**
  * @type import('@reduxjs/toolkit').ActionCreatorWithPreparedPayload
  */
-export const apiCallSuccess = createAction('api/CallSuccess');
+export const apiCallSuccess = createAction("api/CallSuccess");
 
 /**
  * @type import('@reduxjs/toolkit').ActionCreatorWithPreparedPayload
  */
-export const apiCallFailed = createAction('api/CallFailed');
+export const apiCallFailed = createAction("api/CallFailed");

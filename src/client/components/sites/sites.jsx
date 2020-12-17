@@ -15,7 +15,7 @@ import styles from "./sites.module.less";
 
 import SiteAccordion from "./siteAccordion/siteAccordion";
 
-const Sites = ({ list, loading, sitesLoaded }) => {
+export const Sites = ({ list, loading, sitesLoaded }) => {
   const [isAsc, setIsAsc] = useState(true);
   const [userInput, setUserInput] = useState("");
   const [filteredSortedList, setFilteredSortedList] = useState(list);
@@ -129,5 +129,4 @@ const mapDispatchToProps = {
   sitesLoaded,
 };
 
-const ConnectedSites = connect(mapStateToProps, mapDispatchToProps)(Sites);
-export { ConnectedSites as Sites };
+export default connect(mapStateToProps, mapDispatchToProps)(Sites);

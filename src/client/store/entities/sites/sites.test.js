@@ -8,6 +8,14 @@ import configureStore from "../../configureStore";
 
 fetchMock.enableMocks();
 
+const data = [
+  {
+    name: "Site name",
+    country: "Site country",
+    oilRigs: ["oilrigs-id-1", "oilrigs-id-2"],
+  },
+];
+
 const hello = () => "hello world test";
 
 describe("employees", () => {
@@ -43,25 +51,8 @@ describe("employees", () => {
   });
 
   it("should set loading and list when recieved", () => {
-    expect(
-      sites(
-        { list: [], loading: false },
-        sitesReceived([
-          {
-            name: "Site name",
-            country: "Site country",
-            oilRigs: ["oilrigs-id1", "oilrigs-id2"],
-          },
-        ])
-      )
-    ).toEqual({
-      list: [
-        {
-          name: "Site name",
-          country: "Site country",
-          oilRigs: ["oilrigs-id1", "oilrigs-id2"],
-        },
-      ],
+    expect(sites({ list: [], loading: false }, sitesReceived(data))).toEqual({
+      list: data,
       loading: false,
     });
   });

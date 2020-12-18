@@ -3,7 +3,7 @@ import { Accordion, Heading, Button } from "~gui-library";
 import { Link } from "react-router-dom";
 import OilRigs from "../../oil-rigs/oil-rigs";
 
-const SiteAccordion = ({ name, id, country, oilRigs }) => {
+export const SiteAccordion = ({ name, id, country, oilRigs }) => {
   const siteOilRigs = {
     name: "Oil Rigs",
     actions: [],

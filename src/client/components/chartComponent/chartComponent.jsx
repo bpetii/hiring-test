@@ -9,10 +9,11 @@ import CountUp from "react-countup";
 // Users are very unique with peculiar decision, that is why my task is to satisty all the users who visit this page
 // by providing more opportunities to display the information.
 
-const ChartComponent = ({ list, history }) => {
+export const ChartComponent = ({ list, history }) => {
   const [isBar, setIsBar] = useState(true);
   const barChart = (
     <Bar
+      data-testid="bar-chart"
       height={100}
       data={{
         labels: list.map((site) => site.name),
@@ -53,6 +54,7 @@ const ChartComponent = ({ list, history }) => {
 
   const lineChart = (
     <Line
+      data-testid="line-chart"
       height={100}
       data={{
         labels: ["0", ...list.map((site) => site.name)],
@@ -110,10 +112,17 @@ const ChartComponent = ({ list, history }) => {
         }}
       >
         <Card raised heading={<Heading>Number of Sites</Heading>}>
-          <CountUp start={0} end={list.length} duration={5} separator="," />
+          <CountUp
+            data-testid="number-of-sites"
+            start={0}
+            end={list.length}
+            duration={5}
+            separator=","
+          />
         </Card>
         <Card raised heading={<Heading>Number of Oil rigs</Heading>}>
           <CountUp
+            data-testid="number-of-rig-oils"
             start={0}
             end={list
               .map((item) => item.oilRigs.length)
@@ -126,12 +135,17 @@ const ChartComponent = ({ list, history }) => {
         </Card>
       </div>
       <CheckBox
+        data-testid="checkbox"
         label="Bar chart"
         checked={isBar}
         onChange={() => setIsBar((prev) => !prev)}
       />
       <div style={{ height: "500px", width: "100%" }}>
-        {list.length ? (isBar ? barChart : lineChart) : "none of loaded - Please load the sites"}
+        {list.length
+          ? isBar
+            ? barChart
+            : lineChart
+          : "none of loaded - Please load the sites"}
       </div>
     </div>
   );

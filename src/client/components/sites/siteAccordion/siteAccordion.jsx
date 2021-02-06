@@ -18,7 +18,7 @@ export const SiteAccordion = ({ name, id, country, oilRigs }) => {
   return (
     <Accordion
       heading={
-        <Heading>
+        <Heading data-testid="site-information">
           {name} - ({country})
         </Heading>
       }
@@ -27,7 +27,13 @@ export const SiteAccordion = ({ name, id, country, oilRigs }) => {
     >
       <OilRigs list={siteOilRigs} />
       <Link to={`/site-detail/${id}`}>
-        <Button colored name="example" label="View site" inverted />
+        <Button
+          data-testid="button"
+          colored
+          name="example"
+          label="View site"
+          inverted
+        />
       </Link>
     </Accordion>
   );

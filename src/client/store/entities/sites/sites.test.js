@@ -8,7 +8,7 @@ import configureStore from "../../configureStore";
 
 fetchMock.enableMocks();
 
-const data = [
+const mockSites = [
   {
     name: "Site name",
     country: "Site country",
@@ -51,8 +51,10 @@ describe("employees", () => {
   });
 
   it("should set loading and list when recieved", () => {
-    expect(sites({ list: [], loading: false }, sitesReceived(data))).toEqual({
-      list: data,
+    expect(
+      sites({ list: [], loading: false }, sitesReceived(mockSites))
+    ).toEqual({
+      list: mockSites,
       loading: false,
     });
   });
@@ -61,6 +63,16 @@ describe("employees", () => {
     expect(sites({ list: [], loading: false }, sitesRequestFailed())).toEqual({
       list: [],
       loading: false,
+    });
+  });
+
+  it("should set list when sitesloaded fetch function called", async () => {
+    store.dispatch({ type: "sites/sitesReceived", payload: mockSites });
+    expect(
+      sites({ list: [], loading: false }, sitesReceived(mockSites))
+    ).toEqual({
+      list: sitesSlice().list,
+      loading: sitesSlice().loading,
     });
   });
 });

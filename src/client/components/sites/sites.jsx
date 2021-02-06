@@ -63,7 +63,7 @@ export const Sites = ({ list, loading, sitesLoaded }) => {
     <ul>
       {filteredSortedList.map((site, i) => (
         <li key={i}>
-          <SiteAccordion data-test='accordion' {...site} />
+          <SiteAccordion data-test="accordion" {...site} />
         </li>
       ))}
     </ul>
@@ -74,8 +74,8 @@ export const Sites = ({ list, loading, sitesLoaded }) => {
   const sortButton = list.length ? (
     <Button
       name="example"
+      data-testid="sortButton"
       label="Sort by name"
-      data-testid='loadButton'
       onClick={() => {
         setIsAsc((prevState) => !prevState);
       }}
@@ -100,6 +100,7 @@ export const Sites = ({ list, loading, sitesLoaded }) => {
         <Column width={200}>
           <Button
             label="Load sites"
+            data-testid="loadButton"
             onClick={sitesLoaded}
             loading={loading}
             disabled={loading}

@@ -19,7 +19,12 @@ import styles from "./site-details.module.less";
 // Furthermore I used useParams to get the dynamic url parameters. A better and more elegant way would be use API for this case
 // And of course I am able to do it by my own.
 
-const SiteDetails = ({ siteList, oilRigsList, history, oilRigsLoaded }) => {
+export const SiteDetails = ({
+  siteList,
+  oilRigsList,
+  history,
+  oilRigsLoaded,
+}) => {
   const { id } = useParams();
   const siteId = id;
   const [formattedRigList, setFormattedRigList] = useState([]);
@@ -67,6 +72,7 @@ const SiteDetails = ({ siteList, oilRigsList, history, oilRigsLoaded }) => {
 
   const sortButton = formattedRigList && (
     <Button
+      data-testid="sort-button"
       name="example"
       width="125px"
       label="Sort by name"
@@ -91,16 +97,16 @@ const SiteDetails = ({ siteList, oilRigsList, history, oilRigsLoaded }) => {
       {selectedSite && (
         <div className={styles.siteInformation}>
           <h1>
-            Name: <em>{selectedSite.name}</em>
+            Name: <em data-testid="name-label">{selectedSite.name}</em>
           </h1>
           <h1>
-            Country: <em>{selectedSite.country}</em>
+            Country: <em data-testid="country-label">{selectedSite.country}</em>
           </h1>
         </div>
       )}
       <Divider />
       <Card heading={<Heading>List of oil Rigs of </Heading>}>
-        <Row >
+        <Row>
           <Column padding="10px">{sortButton}</Column>
         </Row>
 

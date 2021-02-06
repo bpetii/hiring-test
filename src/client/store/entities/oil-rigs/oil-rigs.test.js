@@ -9,7 +9,7 @@ import configureStore from "../../configureStore";
 
 fetchMock.enableMocks();
 
-const rigList = [
+const mockOilRigs = [
   {
     name: "Oil-rig-name",
     manufacturer: "Oil-rig-manufacturer",
@@ -52,9 +52,9 @@ describe("employees", () => {
   });
   it("should set loading and list when recieved", () => {
     expect(
-      oilRigs({ list: [], loading: false }, oilRigsReceived(rigList))
+      oilRigs({ list: [], loading: false }, oilRigsReceived(mockOilRigs))
     ).toEqual({
-      list: rigList,
+      list: mockOilRigs,
       loading: false,
     });
   });
@@ -65,6 +65,16 @@ describe("employees", () => {
     ).toEqual({
       list: [],
       loading: false,
+    });
+  });
+
+  it("should set list when oil rigs loaded fetch function called", async () => {
+    store.dispatch({ type: "oilRigs/oilRigsReceived", payload: mockOilRigs });
+    expect(
+      oilRigs({ list: [], loading: false }, oilRigsReceived(mockOilRigs))
+    ).toEqual({
+      list: oilRigsSlice().list,
+      loading: oilRigsSlice().loading,
     });
   });
 });

@@ -1,11 +1,6 @@
 import React from "react";
-import { configure, shallow } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
-import { Sites } from "./sites.jsx";
-import siteAccordion from "./siteAccordion/siteAccordion";
-import { sitesLoaded } from "../../store/entities/sites/sites";
-import { Button, Input } from "~gui-library";
-import { render, cleanup } from "@testing-library/react";
+import { Sites } from "./sites";
+import { render, cleanup, screen, fireEvent } from "@testing-library/react";
 
 /* describe("<Sites/>", () => {
   it("should have 0 <siteAccordion/> elements before loads site button clicked", () => {
@@ -19,28 +14,47 @@ afterEach(cleanup);
 const mockSites = [
   {
     name: "Site-name-1",
-    country: "Site country",
+    country: "Site country-1",
     oilRigs: ["oilrigs-id1", "oilrigs-id2"],
     id: "Site-id-1",
   },
   {
-    name: "Site-name-2",
-    country: "Site-country",
-    oilRigs: ["oilrigs-id3", "oilrigs-id4"],
+    name: "Filtered-name-2",
+    country: "Site-country-2",
+    oilRigs: ["oilrigs-id-3", "oilrigs-id-4"],
     id: "Site-id-2",
   },
 ];
+
+/* global.fetch = jest.fn(() => {
+  Promise.resolve({
+    json: () =>
+      Promise.resolve(
+        store.dispatch({ type: "sites/sitesReceived", payload: mockSites })
+      ),
+  });
+}); */
 
 describe("<Sites/>", () => {
   let store;
   beforeEach(() => {
     store = configureStore();
     fetch.resetMocks();
+    fetch.mockClear();
   });
 
-  it("should renders load sites button", () => {
+  const sitesSlice = () => store.getState().entities.sites;
+
+  it("should render load sites button", () => {
     const { getByTestId } = render(<Sites />);
-    getByTestId("loadButton").toHaveTextContent = "Load sites";
+    expect(getByTestId("loadButton")).toHaveTextContent("Load sites");
+  });
+
+  it("Test click event", () => {
+    const { getByTestId } = render(<Sites />);
+    const mockOnClick = jest.fn();
+    fireEvent.click(getByTestId("loadButton"));
+    expect(mockOnClick.mock.calls.length).toEqual(1);
   });
 
   it("should renders sort button and filter input after the load sites button clicked ", () => {
@@ -50,17 +64,49 @@ describe("<Sites/>", () => {
     expect(getByPlaceholderText("Filter by name")).toBeTruthy();
   });
 
-  it("should renders 2 <siteAccordion/> elements after the load sites button clicked", () => {
+  it("should renders 2 <siteAccordion/> elements after the load sites button clicked", async () => {
     const { container, getByTestId } = render(<Sites />);
+    const mockOnLoadSites = jest.fn();
     fireEvent.click(getByTestId("loadButton"));
+    store.dispatch({ type: "sites/sitesReceived", payload: MockSites });
+
+    /*  fetch().mockImplementationOnce(() => Promise.resolve(mockSites)); */
+
     const accordionComponents = container.querySelector(
       '[data-test="accordion"]'
     );
-    store.dispatch({ type: "api/CallSuccess", payload: mockSites });
+    expect(mockOnLoadSites).toHaveBeenCalledTimes(1);
+    expect(mockSites.sort()).toEqual(sitesSlice().list.sort());
     expect(accordionComponents).toHaveLength(2);
+  });
+
+  it("should the filter input element updates on change", () => {
+    const { container, getByPlaceholderText } = render(<Sites />);
+    fireEvent.click(getByTestId("loadButton"));
+    store.dispatch({ type: "sites/sitesReceived", payload: MockSites });
+
+    const filterInput = getByPlaceholderText("Filter by name");
+    fireEvent.change(filterInput, {
+      target: { value: "f" },
+    });
+    expect(filterInput.value).toBe("f");
+    const filteredSites = container.querySelector('[data-test="accordion"]');
+    expect(filteredSites).toHaveLength(1);
+    expect(filteredSites).toHaveProperty(["site", "name"], "Filtered-name-2");
+  });
+
+  it("should call the sort by name button", () => {
+    const { getByTestId } = render(<Sites />);
+    const mockOnSort = jest.fn();
+
+    store.dispatch({ type: "sites/sitesReceived", payload: MockSites });
+    fireEvent.click(getByTestId("sortButton"));
+    expect(mockOnSort).toHaveBeenCalled();
   });
 });
 
+//-------------------------- ENZYME -------------------------//
+//just for reference, I started with this.
 /* 
 configure({ adapter: new Adapter() });
 
@@ -84,7 +130,7 @@ describe("<Sites/>", () => {
 
     wrapper.find("button").simulate("click");
     await Promise.resolve();
-    wrapper.setProps({list:fakeData})
+    wrapper.setProps({list:mockSites})
     expect(wrapper.props().list).toHaveSize(2);
   });
 
@@ -98,6 +144,6 @@ describe("<Sites/>", () => {
   });
 
   it("should have 2 <siteAccordion/> elements after loads site button clicked", () => {
-    wrapper.setProps({ list: fakeData });
+    wrapper.setProps({ list: mockSites });
   });
 }); */

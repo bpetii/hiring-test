@@ -5,8 +5,8 @@ import { List } from "~gui-library";
 // however I assume that this component will be expanded by adding new elements,
 // so this component will handle the changes as welcome changes
 
-const OilRigs = ({ list }) => {
-  return <List list={list} bordered allWhite />;
+export const OilRigs = ({ list }) => {
+  return <List data-testid='oil-rig-list' list={list} bordered allWhite />;
 };
 
 export default OilRigs;
